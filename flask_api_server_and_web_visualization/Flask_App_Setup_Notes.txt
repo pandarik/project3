@@ -1,0 +1,103 @@
+#########################
+# FLASK APP SETUP NOTES #
+#########################
+
+
+
+1.) FLASK APP REQUIRES DATABASE SETUP
+======================================
+
+The FLASK APP assumes the database has been named "Project_3"
+
+In pgAdmin ...
+After setting up the initial database schema and loading the table data from the "clean" csv files ...
+... then , run the following additional SQL for the FLASK APP
+
+-- --------------------------------------------------------------------------------
+DROP TABLE IF EXISTS cleaned_properties;
+
+-- Create a new table for the cleaned data
+CREATE TABLE cleaned_properties AS
+SELECT 
+    -- Generate a unique ID
+    Property_id AS id,
+    Title AS name,
+    -- Convert latitude and longitude to DECIMAL(9,6)
+    NULLIF(lat, '')::DECIMAL(9,6) AS latitude,
+    NULLIF(lng, '')::DECIMAL(9,6) AS longitude,
+    -- Convert numbedroom and numbathroom to INTEGER, handling blanks and non-numeric values
+    CASE
+        WHEN NULLIF(numbedroom, '') ~ '^[0-9]+$' THEN NULLIF(numbedroom, '')::INTEGER
+        ELSE NULL
+    END AS bedrooms,
+    CASE
+        WHEN NULLIF(numbathroom, '') ~ '^[0-9]+$' THEN NULLIF(numbathroom, '')::INTEGER
+        ELSE NULL
+    END AS bathrooms
+FROM AirBNB_dt
+WHERE lat IS NOT NULL AND lng IS NOT NULL
+AND lat <> '' AND lng <> ''
+AND (numbedroom IS NOT NULL AND numbedroom <> '') 
+AND (numbathroom IS NOT NULL AND numbathroom <> '');
+-- --------------------------------------------------------------------------------
+DROP TABLE IF EXISTS property;
+
+CREATE TABLE property (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    latitude DECIMAL(9,6),
+    longitude DECIMAL(9,6),
+    bedrooms INTEGER,
+    bathrooms INTEGER
+);
+
+INSERT INTO property (name, latitude, longitude, bedrooms, bathrooms)
+SELECT
+    name,
+    latitude,
+    longitude,
+    bedrooms,
+    bathrooms
+FROM cleaned_properties
+	WHERE (bedrooms is NOT NULL)
+	AND (bathrooms is NOT NULL);
+-- --------------------------------------------------------------------------------
+
+
+
+
+
+2.) FLASK APP REQUIRES NEW MODULES TO BE INSTALLED IN PYTHON (ANACONDA) ENVIRONMENT
+===================================================================================+
+
+get into dev environment
+-------------------------
+  conda env list
+  conda activate dev
+  conda env list
+
+   
+check if needed modules are installed
+--------------------------------------
+  conda list flask
+  conda list flask-sqlalchemy
+  conda list psycopg2
+  
+
+install missing modules
+------------------------
+  conda install -c conda-forge flask-sqlalchemy
+  conda install -c conda-forge psycopg2
+
+
+navigate to the code directory
+-------------------------------
+  cd ..\..
+  cd GITHUB\project3
+
+
+dir, and run, the code file
+-----------------------------
+  dir flask_application.py
+  python flask_application.py
+

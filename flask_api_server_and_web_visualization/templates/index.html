@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rental Properties Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; }
+    </style>
+</head>
+<body>
+    <h1>Rental Properties Map</h1>
+    <div>
+        <label for="bedrooms">Bedrooms:</label>
+        <select id="bedrooms">
+            <option value="">Any</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <label for="bathrooms">Bathrooms:</label>
+        <select id="bathrooms">
+            <option value="">Any</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+
+        <button onclick="fetchProperties()">Filter</button>
+    </div>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // The latitude and longitude of the central Florida, USA is Latitude: 27.994402, Longitude: -81.760254
+        // var map = L.map('map').setView([27.994402, -81.760254], 7);  // GOOD FULL FLORIDA VIEW
+        var map = L.map('map').setView([26.994402, -81.760254], 7);  // A BIT MORE SOUTHERN FLORIDA VIEW
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        function fetchProperties() {
+            var bedrooms = document.getElementById('bedrooms').value;
+            var bathrooms = document.getElementById('bathrooms').value;
+            var url = `/api/properties?bedrooms=${bedrooms}&bathrooms=${bathrooms}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear existing markers
+                    map.eachLayer(layer => {
+                        if (layer instanceof L.Marker) {
+                            map.removeLayer(layer);
+                        }
+                    });
+                    // Add new markers
+                    data.forEach(property => {
+                        L.marker([property.latitude, property.longitude])
+                            .bindPopup(`<b>${property.name}</b><br>${property.bedrooms} beds, ${property.bathrooms} baths`)
+                            .addTo(map);
+                    });
+                });
+        }
+
+        // Initial load
+        fetchProperties();
+    </script>
+</body>
+</html>
