@@ -93,8 +93,7 @@ install missing modules
 navigate to the code directory
 -------------------------------
   cd ..\..
-  cd GITHUB\project3
-
+  cd GITHUB\project3\flask_api_server_and_web_visualization
 
 dir, and run, the code file
 -----------------------------
