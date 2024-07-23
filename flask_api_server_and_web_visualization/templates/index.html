@@ -61,7 +61,6 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
         // The latitude and longitude of the central Florida, USA is Latitude: 27.994402, Longitude: -81.760254
-        // var map = L.map('map').setView([27.994402, -81.760254], 7);  // GOOD FULL FLORIDA VIEW
         var map = L.map('map').setView([26.994402, -81.760254], 7);  // A BIT MORE SOUTHERN FLORIDA VIEW
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -83,13 +82,14 @@
         }
 
         function fetchProperties() {
-            var bedrooms = document.getElementById('bedrooms').value;
-            var bathrooms = document.getElementById('bathrooms').value;
-            var min_price = document.getElementById('min_price').value;
-            var max_price = document.getElementById('max_price').value;
+            var bedrooms    = document.getElementById('bedrooms').value;
+            var bathrooms   = document.getElementById('bathrooms').value;
+            var min_price   = document.getElementById('min_price').value;
+            var max_price   = document.getElementById('max_price').value;
             var destination = document.getElementById('destination').value;
-            // var url = `/api/properties?bedrooms=${bedrooms}&bathrooms=${bathrooms}`;
+
             var url = `/api/properties?bedrooms=${bedrooms}&bathrooms=${bathrooms}&min_price=${min_price}&max_price=${max_price}&destination=${destination}`;
+
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -102,7 +102,6 @@
                     // Add new markers
                     data.forEach(property => {
                         L.marker([property.latitude, property.longitude])
-                            // .bindPopup(`<b>${property.name}</b><br>${property.bedrooms} beds, ${property.bathrooms} baths`)
                             .bindPopup(`<b>${property.name}</b><br>${property.bedrooms} beds, ${property.bathrooms} baths<br>Price: $${property.price}<br>Rating: ${property.rating} (${property.rating_desc})<br>Reviews: ${property.num_reviews}<br>Sleeps: ${property.num_people}`)
                             .addTo(map);
                     });
