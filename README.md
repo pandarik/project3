@@ -9,7 +9,7 @@ Instructions on how to use and interact with the project -- Mark to add how to u
 At least one paragraph summarizing efforts for ethical considerations made in the project -- Krishna,Mark,Jim
 
 
-References for the data source(s)
+References for the data source(s):
 Airbnb webpage
 VRBO webpage
 
