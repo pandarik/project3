@@ -69,7 +69,8 @@ def get_properties():
         'rating':      prop.rating,
         'rating_desc': prop.rating_desc,
         'num_reviews': prop.num_reviews,
-        'num_people':  prop.num_people
+        'num_people':  prop.num_people,
+        'destination': prop.destination
     } for prop in properties])
 
 @app.route('/api/destinations')

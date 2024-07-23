@@ -3,6 +3,8 @@
 <head>
     <title>Rental Properties Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <style>
         #map { height: 600px; }
     </style>
@@ -58,7 +60,10 @@
     </div>
     <div id="map"></div>
 
+    <!-- Leaflet and SweetAlert2 scripts -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         // The latitude and longitude of the central Florida, USA is Latitude: 27.994402, Longitude: -81.760254
         var map = L.map('map').setView([26.994402, -81.760254], 7);  // A BIT MORE SOUTHERN FLORIDA VIEW
@@ -99,11 +104,32 @@
                             map.removeLayer(layer);
                         }
                     });
+
                     // Add new markers
                     data.forEach(property => {
-                        L.marker([property.latitude, property.longitude])
-                            .bindPopup(`<b>${property.name}</b><br>${property.bedrooms} beds, ${property.bathrooms} baths<br>Price: $${property.price}<br>Rating: ${property.rating} (${property.rating_desc})<br>Reviews: ${property.num_reviews}<br>Sleeps: ${property.num_people}`)
-                            .addTo(map);
+                        var marker = L.marker([property.latitude, property.longitude])
+                            .addTo(map)
+                            .on('click', function() {
+                                Swal.fire({
+                                    title: 'Property Details',
+                                    html: `<b>${property.name}</b><br>...<br>${property.destination}<br><br>
+                                        <b>Price:</b> $${property.price}<br>
+                                        <b>Number of People:</b> ${property.num_people}<br>
+                                        <b>Bedrooms:</b> ${property.bedrooms}<br>
+                                        <b>Baths:</b> ${property.bathrooms}<br><br>
+                                        <b>Rating:</b> ${property.rating} (${property.rating_desc}) <br>
+                                        <b>Number of Reviews:</b> ${property.num_reviews}`,
+                                    // icon: 'info',
+                                    confirmButtonText: 'Close',
+                                    width: '400px',  // Adjust the width of the popup
+                                    showClass: {
+                                        popup: 'animate__animated animate__fadeInDown' // Animation class for showing the popup
+                                    },
+                                    hideClass: {
+                                        popup: 'animate__animated animate__fadeOutUp' // Animation class for hiding the popup
+                                    }
+                                });
+                            });
                     });
                 });
         }
