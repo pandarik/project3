@@ -33,8 +33,15 @@ SELECT
     CASE
         WHEN NULLIF(numbathroom, '') ~ '^[0-9]+$' THEN NULLIF(numbathroom, '')::INTEGER
         ELSE NULL
-    END AS bathrooms
-FROM AirBNB_dt
+    END AS bathrooms,
+    -- Additional columns
+    Price,
+    Rating,
+    Rating_desc,
+    Num_Reviews,
+    NULLIF(NumPeople, '')::INTEGER AS num_people, -- Convert NumPeople to INTEGER
+    Destination
+FROM Vacation_Rental_DT
 WHERE lat IS NOT NULL AND lng IS NOT NULL
 AND lat <> '' AND lng <> ''
 AND (numbedroom IS NOT NULL AND numbedroom <> '') 
@@ -48,19 +55,32 @@ CREATE TABLE property (
     latitude DECIMAL(9,6),
     longitude DECIMAL(9,6),
     bedrooms INTEGER,
-    bathrooms INTEGER
+    bathrooms INTEGER,
+    price INT,
+    rating VARCHAR,
+    rating_desc VARCHAR,
+    num_reviews VARCHAR,
+    num_people INTEGER,
+    destination VARCHAR
 );
 
-INSERT INTO property (name, latitude, longitude, bedrooms, bathrooms)
+-- Insert the cleaned data into the new table
+INSERT INTO property (name, latitude, longitude, bedrooms, bathrooms, price, rating, rating_desc, num_reviews, num_people, destination)
 SELECT
     name,
     latitude,
     longitude,
     bedrooms,
-    bathrooms
+    bathrooms,
+    price,
+    rating,
+    rating_desc,
+    num_reviews,
+    num_people,
+    destination
 FROM cleaned_properties
-	WHERE (bedrooms is NOT NULL)
-	AND (bathrooms is NOT NULL);
+WHERE (bedrooms IS NOT NULL)
+AND (bathrooms IS NOT NULL);
 -- --------------------------------------------------------------------------------
 
 
