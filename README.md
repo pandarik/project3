@@ -25,6 +25,13 @@ Enjoy the Visualization
 
 ![Alt text](/flask_api_server_and_web_visualization/screenshot_2__map_markers_popup.jpg?raw=true "Frontend Visualization")  
 
+## Code Source/Location within this Repo  
+ReadMe : project3/README.md  
+Project Files:  
+&nbsp;&nbsp;PostgreSQL Scape Table Setup ( SQL script ) : project3/SQL Table Create.sql  
+&nbsp;&nbsp;PostgreSQL Flask Table Setup ( SQL script ) : project3/flask_api_server_and_web_visualization/Flask_App_Setup_Notes.txt (see section 1)  
+&nbsp;&nbsp;Flask API Application ( Python code ) : project3/flask_api_server_and_web_visualization/flask_application.py  
+&nbsp;&nbsp;Web Visualization ( HTML Javascript ) : project3/flask_api_server_and_web_visualization/templates/index.html  
 
 ## Ethical considerations made in the project
 In our project focused on vacation rental properties in Southwest Florida, we have made significant efforts to ensure ethical considerations are thoroughly addressed. We have prioritized data privacy by anonymizing any personal information collected during our data scraping process from platforms like Airbnb and VRBO. Also, we have followed the terms of service of these websites to avoid any unauthorized data extraction. Our data analysis and visualization practices are designed to be transparent and unbiased, ensuring that the insights generated are accurate and fair. We have also taken steps to ensure that our findings do not inadvertently harm property owners or renters by avoiding any misrepresentation of data. Overall, our commitment to ethical standards has been a guiding principle throughout the project, ensuring that our work is both responsible and respectful of all stakeholders involved.
