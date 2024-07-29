@@ -7,13 +7,18 @@ With an emphasis on the data visualization track.
 ## How to setup and run the Flask powered API backend and HTML Javascript frontend Visualization:  
 Data Setup:  
  - PostgreSQL Database is created in pgAdmin, with the database being named "Project_3".
- - A table named "Vacation_Rental_DT" is used to hold data that was generated from web-scraping. This table is created using the SQL script found in file "SQL Table Create.sql".  Afterwhich this table is populated by importing the scrapped data found in file "Data\vacation_rental.csv".
+ - A table named "Vacation_Rental_DT" is used to hold data that was generated from web-scraping. This table is created using the SQL script found in file "SQL Table Create.sql".  Afterwhich this table is populated by importing the scrapped data found in file "Data\vacation_rental.csv".  
+   Note that during this file import proceedure ... on the "Options" tab of the "Import/Export data" dialog ... a single blank space character must be entered as the defined value to be used for "NULL Strings" setup.  
  - A table named "property" is used by the Flask application, and it requires additional SQL setup.  The SQL script used to transform the "Vacation_Rental_DT" table into the final "Properties_DT" table is found within section 1. of the file "flask_api_server_and_web_visualization\Flask_App_Setup_Notes.txt".  Run this block of SQL script to generate and populate an intermediate "cleaned_properties" table, and then the final "property" table.  
 
 Python Environment Setup:  
  - The python runtime environment used to run the Flask application must have the following 3 python modules loaded:  
     1.) flask,  2.) flask-sqlalchemy,  3.) psycopg2  
     ( psycopg2 is used "under the hood" by sqlalchemy to connect to the PostgreSQL database )
+
+Database Credential used within Flask App  
+ - Database "Connection String" Credential is defined on line number 8, of the "flask_application.py" file.  
+   Line number 7 shows a "template" of the PostgrSQL database connection string being used ... and will help in the placement of any necessary modified value(s).  
 
 Run the Flask App  
  - The Flask API web server backend is started using the following command ...  
